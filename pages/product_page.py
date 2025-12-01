@@ -8,7 +8,13 @@ class ProductPage(BasePage):
     def add_to_basket(self):
         add_button = self.browser.find_element(*ProductPageLocators.ADD_TO_BASKET_BUTTON)
         add_button.click()
-        self.solve_quiz_and_get_code()
+
+        # Проверяем, есть ли alert (только для промо-страниц)
+        try:
+            self.solve_quiz_and_get_code()
+        except NoAlertPresentException:
+            # Если alert нет - это нормально (не промо-страница)
+            pass
 
     def get_product_name(self):
         return self.browser.find_element(*ProductPageLocators.PRODUCT_NAME).text
