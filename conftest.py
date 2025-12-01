@@ -10,17 +10,25 @@ def pytest_addoption(parser):
                      help="Choose language: es, fr, ru, etc.")
 
 
+def pytest_configure(config):
+    # Регистрируем кастомные метки
+    config.addinivalue_line(
+        "markers", "need_review: tests for peer review"
+    )
+    config.addinivalue_line(
+        "markers", "login_guest: tests for guest login"
+    )
+
+
 @pytest.fixture(scope="function")
 def browser(request):
     user_language = request.config.getoption("language")
 
-    # Настройка опций Chrome для указания языка
     options = Options()
     options.add_experimental_option('prefs', {
         'intl.accept_languages': user_language
     })
 
-    # Инициализация браузера с указанными опциями
     service = Service(ChromeDriverManager().install())
     browser = webdriver.Chrome(service=service, options=options)
 
