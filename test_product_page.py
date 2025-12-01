@@ -30,3 +30,21 @@ def test_guest_can_go_to_login_page_from_product_page(browser):
     page.go_to_login_page()
     login_page = LoginPage(browser, browser.current_url)
     login_page.should_be_login_page()
+
+
+def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
+    """
+    Гость открывает страницу товара
+    Переходит в корзину по кнопке в шапке
+    Ожидаем, что в корзине нет товаров
+    Ожидаем, что есть текст о том что корзина пуста
+    """
+    link = "http://selenium1py.pythonanywhere.com/catalogue/the-shellcoders-handbook_209/"
+    page = ProductPage(browser, link)
+    page.open()
+
+    # Переходим в корзину
+    basket_page = page.go_to_basket_page()
+
+    # Проверяем, что корзина пуста
+    basket_page.should_be_empty_basket()
