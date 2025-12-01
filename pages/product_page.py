@@ -8,7 +8,6 @@ class ProductPage(BasePage):
     def add_to_basket(self):
         add_button = self.browser.find_element(*ProductPageLocators.ADD_TO_BASKET_BUTTON)
         add_button.click()
-
         # Проверяем, есть ли alert (только для промо-страниц)
         try:
             self.solve_quiz_and_get_code()
@@ -49,21 +48,9 @@ class ProductPage(BasePage):
             f"Basket total '{actual_price}' doesn't match '{expected_price}'"
 
     def should_not_be_success_message(self):
-        # Проверяем, что сообщения об успехе НЕТ
         assert self.is_not_element_present(*ProductPageLocators.SUCCESS_MESSAGE), \
             "Success message is presented, but should not be"
 
     def should_disappear_success_message(self):
-        # Проверяем, что сообщение об успехе исчезает
         assert self.is_disappeared(*ProductPageLocators.SUCCESS_MESSAGE), \
             "Success message should disappear, but it didn't"
-
-        def should_be_login_link(self):
-            # Проверяем, что есть ссылка на логин
-            assert self.is_element_present(*ProductPageLocators.LOGIN_LINK), \
-                "Login link is not presented"
-
-        def go_to_login_page(self):
-            # Переходим на страницу логина
-            login_link = self.browser.find_element(*ProductPageLocators.LOGIN_LINK)
-            login_link.click()
